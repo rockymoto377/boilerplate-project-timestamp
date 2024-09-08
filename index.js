@@ -30,14 +30,7 @@ app.get("/api/:timestamp", (req, res) => {
   if (!date.valueOf()) {
     date = new Date(parseInt(req.params.timestamp));
   }
-
-  if (!req.params.timestamp) {
-    date = new Date();
-    res.json({
-      unix: date.valueOf(),
-      utc: date.toUTCString()
-    })
-  } else if (!date.valueOf()) {
+  if (!date.valueOf()) {
     res.json({error: "Invalid Date"});
   } else {
     res.json({
@@ -46,6 +39,14 @@ app.get("/api/:timestamp", (req, res) => {
     })
   }
 });
+
+app.get("/api", (req, res) => {
+  date = new Date();
+  res.json({
+    unix: date.valueOf(),
+    utc: date.toUTCString()
+  })
+})
 
 // Listen on port set in environment variable or default to 3000
 var listener = app.listen(process.env.PORT || 3000, function () {
