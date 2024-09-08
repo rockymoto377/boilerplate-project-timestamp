@@ -31,10 +31,20 @@ app.get("/api/:timestamp", (req, res) => {
     date = new Date(parseInt(req.params.timestamp));
   }
 
-  res.json({
-    unix: date.valueOf(), 
-    utc: date.toUTCString()
-  })
+  if (!req.params.timestamp) {
+    date = new Date();
+    res.json({
+      unix: date.valueOf(),
+      utc: date.toUTCString()
+    })
+  } else if (!date.valueOf()) {
+    res.json({error: "Invalid Date"});
+  } else {
+    res.json({
+      unix: date.valueOf(), 
+      utc: date.toUTCString()
+    })
+  }
 });
 
 // Listen on port set in environment variable or default to 3000
